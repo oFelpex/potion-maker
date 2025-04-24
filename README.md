@@ -22,13 +22,13 @@ Potion Maker is a simple CRUD web application where users can create, view, upda
 1. Clone the repository:
 
 ```bash
-   git clone https://github.com/oFelpex/potion-maker.git
+git clone https://github.com/oFelpex/potion-maker.git
 ```
 
 2. Navigate to the project folder:
 
 ```bash
-    cd potion-maker
+cd potion-maker
 ```
 
 3. Install JSON Server (if not installed):
@@ -70,5 +70,7 @@ potion-maker/
 ## 📜 License
 
 This project is open source and available under the MIT License.
+
+##
 
 Made with 💻 and a bit of magic ✨
