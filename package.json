@@ -1,0 +1,22 @@
+{
+  "name": "potion-maker",
+  "version": "1.0.0",
+  "description": "Potion Maker is a simple CRUD web application where users can create, view, update, and delete magical potions. It's built with **HTML**, **CSS**, **JavaScript**, and uses **JSON Server** as a mock REST API.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oFelpex/potion-maker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oFelpex/potion-maker/issues"
+  },
+  "homepage": "https://github.com/oFelpex/potion-maker#readme",
+  "dependencies": {
+    "json-server": "^1.0.0-beta.3"
+  }
+}
