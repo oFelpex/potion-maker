@@ -1,0 +1,18 @@
+{
+  "potions": [
+    {
+      "id": "d02j",
+      "potion-name": "Strenght Potion",
+      "potion-ingredients": "Spider Eye",
+      "potion-effects": "Super Strenght",
+      "potion-color-picker": "#a43d3d"
+    },
+    {
+      "id": "a71a",
+      "potion-name": "dwad",
+      "potion-ingredients": "dwadw",
+      "potion-effects": "dwa",
+      "potion-color-picker": "#df2020"
+    }
+  ]
+}
