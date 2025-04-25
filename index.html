@@ -7,6 +7,106 @@
     <title>Potion Maker</title>
   </head>
   <body>
+    <header id="header">
+      <h1>Take a look at the potions already made</h1>
+    </header>
+    <main>
+      <section id="potion-showcase"></section>
+      <hr />
+      <section id="potion-creator">
+        <div id="form-container">
+          <h2>Create your own potion!</h2>
+          <form action="" method="post" id="potions-form">
+            <div class="div-input">
+              <label for="potion-name">Potion Name</label>
+              <input
+                maxlength="20"
+                minlength="3"
+                placeholder="Ex: Strength Potion"
+                type="text"
+                name="potion-name"
+                id="potion-name"
+              />
+            </div>
+
+            <div class="div-input">
+              <label for="potion-ingredients">Potion Ingredients</label>
+              <input
+                maxlength="25"
+                minlength="3"
+                placeholder="Ex: Spider Eye"
+                type="text"
+                name="potion-ingredients"
+                id="potion-ingredients"
+              />
+              <button type="button">
+                <span>Add Ingredient</span>
+              </button>
+            </div>
+
+            <div class="div-input">
+              <label for="potion-effects">Potion Effects</label>
+              <input
+                maxlength="15"
+                minlength="3"
+                placeholder="Ex: Strength"
+                type="text"
+                name="potion-effects"
+                id="potion-effects"
+              />
+              <button type="button">
+                <span>Add Effect</span>
+              </button>
+            </div>
+
+            <div class="div-input">
+              <label for="bottle-type-select">Choose the type of bottle</label>
+              <div id="div-bottle-preview">
+                <select
+                  name="bottle-type-select"
+                  id="bottle-type-select"
+                  onchange="bottlePreview()"
+                >
+                  <option value="" selected disabled>Select the type</option>
+                  <option value="0">Type 1</option>
+                  <option value="1">Type 2</option>
+                  <option value="2">Type 3</option>
+                  <option value="3">Type 4</option>
+                  <option value="4">Type 5</option>
+                </select>
+                <div id="bottle-preview-container">
+                  <img
+                    id="bottle-preview"
+                    src="./assets/empty-bottles/bottle-0.webp"
+                    alt="A Empty Bottle"
+                  />
+                  <figcaption id="bottle-preview-caption">Type: 1</figcaption>
+                </div>
+              </div>
+            </div>
+
+            <div class="div-input">
+              <label for="potion-color-input"
+                >Choose the color of the potion</label
+              >
+              <div id="div-potion-color">
+                <input
+                  type="color"
+                  name="potion-color-picker"
+                  id="potion-color-picker"
+                  onchange="addToInputColor()"
+                />
+                <span id="potion-color-span">Select a color</span>
+              </div>
+            </div>
+
+            <button type="submit">
+              <span>Create!</span>
+            </button>
+          </form>
+        </div>
+      </section>
+    </main>
     <script src="script.js"></script>
   </body>
 </html>
