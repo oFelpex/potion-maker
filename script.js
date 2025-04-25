@@ -18,3 +18,43 @@ function addToInputColor() {
   document.getElementById("potion-color-span").innerHTML =
     "Color: " + potionColorPicker.value;
 }
+
+async function submitPotion() {
+  let potionForm = document.getElementById("potions-form");
+  potionForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const potionOBJ = {
+      "potion-name": event.target["potion-name"].value,
+      "potion-ingredients": event.target["potion-ingredients"].value,
+      "potion-effects": event.target["potion-effects"].value,
+      "potion-color-picker": event.target["potion-color-picker"].value,
+    };
+    const potionJSON = JSON.stringify(potionOBJ);
+
+    await fetch("http://localhost:3000/potions", {
+      method: "POST",
+      body: potionJSON,
+    })
+      .then(function (response) {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return Promise.reject(response);
+        }
+      })
+      .then(function (data) {
+        console.log(data);
+      })
+      .catch(function (err) {
+        console.warn("Something went wrong.", err);
+      });
+  });
+}
+
+async function getPotions() {
+  let response = (await fetch("http://localhost:3000/potions")).json();
+  response.then((value) => {
+    return value;
+  });
+}
