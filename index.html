@@ -16,10 +16,11 @@
       <section id="potion-creator">
         <div id="form-container">
           <h2>Create your own potion!</h2>
-          <form action="" method="post" id="potions-form">
+          <form id="potions-form">
             <div class="div-input">
               <label for="potion-name">Potion Name</label>
               <input
+                required
                 maxlength="20"
                 minlength="3"
                 placeholder="Ex: Strength Potion"
@@ -32,6 +33,7 @@
             <div class="div-input">
               <label for="potion-ingredients">Potion Ingredients</label>
               <input
+                required
                 maxlength="25"
                 minlength="3"
                 placeholder="Ex: Spider Eye"
@@ -47,6 +49,7 @@
             <div class="div-input">
               <label for="potion-effects">Potion Effects</label>
               <input
+                required
                 maxlength="15"
                 minlength="3"
                 placeholder="Ex: Strength"
@@ -63,6 +66,7 @@
               <label for="bottle-type-select">Choose the type of bottle</label>
               <div id="div-bottle-preview">
                 <select
+                  required
                   name="bottle-type-select"
                   id="bottle-type-select"
                   onchange="bottlePreview()"
@@ -86,11 +90,12 @@
             </div>
 
             <div class="div-input">
-              <label for="potion-color-input"
+              <label for="potion-color-picker"
                 >Choose the color of the potion</label
               >
               <div id="div-potion-color">
                 <input
+                  required
                   type="color"
                   name="potion-color-picker"
                   id="potion-color-picker"
@@ -100,7 +105,7 @@
               </div>
             </div>
 
-            <button type="submit">
+            <button type="submit" onclick="submitPotion()">
               <span>Create!</span>
             </button>
           </form>
