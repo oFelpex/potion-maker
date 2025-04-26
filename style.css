@@ -42,6 +42,7 @@ button {
 }
 #header {
   padding: 20px;
+  flex-direction: column;
 }
 
 #header,
@@ -49,6 +50,14 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+#potion-showcase {
+}
+.potion-card {
+  height: 180px;
+  background-color: red;
+  width: 140px;
 }
 
 #form-container {
