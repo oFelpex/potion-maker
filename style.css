@@ -41,10 +41,9 @@ button {
   }
 }
 #header {
-  padding: 20px;
+  padding-top: 20px;
   flex-direction: column;
 }
-
 #header,
 #potion-creator {
   display: flex;
@@ -52,14 +51,107 @@ button {
   justify-content: center;
 }
 
+/* Potion showcase: */
 #potion-showcase {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 70vw;
+  height: auto;
+  padding: 20px;
 }
 .potion-card {
-  height: 180px;
-  background-color: red;
-  width: 140px;
+  display: flex;
+  align-items: self-start;
+  justify-content: center;
+
+  height: 280px;
+  background-color: #163255;
+  border-radius: 8px;
+  width: 240px;
+}
+.showcase-potion-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px;
+}
+.showcase-potion-img {
+  z-index: 1;
+  width: 60px;
+  height: auto;
+  pointer-events: none;
+}
+/* Potion type: 0 */
+.showcase-potion-color-0 {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  width: 39px;
+  height: 35px;
+  bottom: 11px;
+  position: absolute;
+}
+/* Potion type: 1 */
+.showcase-potion-color-1 {
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-left: 20px solid transparent;
+
+  border-right: 20px solid transparent;
+  border-bottom: 50px solid #4caf50;
+  width: 25px;
+  bottom: 11px;
+  position: absolute;
+}
+.showcase-potion-color-1-bottom {
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  width: 19px;
+  bottom: 11px;
+  position: absolute;
+}
+/* Potion type: 2 */
+.showcase-potion-color-2 {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  width: 42px;
+  height: 42px;
+  bottom: 11px;
+  margin-right: 2px;
+  position: absolute;
+}
+/* Potion type: 3 */
+.showcase-potion-color-3 {
+  transform: rotate(180deg);
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+
+  width: 41px;
+  top: 51px;
+  position: absolute;
+}
+/* Potion type: 4 */
+.showcase-potion-color-4 {
+  border-radius: 50%;
+  transform: translate(0.5%, 0%);
+  width: 58px;
+  height: 59px;
+  bottom: 11px;
+  position: absolute;
 }
 
+/* Potion form: */
 #form-container {
   max-width: 400px;
   min-width: 250px;
@@ -67,6 +159,7 @@ button {
   border-radius: 5px;
   border: thick double #604652;
   padding: 20px;
+  margin: 20px;
 }
 #potions-form {
   display: flex;
