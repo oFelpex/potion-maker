@@ -5,14 +5,80 @@
       "potion-name": "Strenght Potion",
       "potion-ingredients": "Spider Eye",
       "potion-effects": "Super Strenght",
-      "potion-color-picker": "#a43d3d"
+      "potion-color-picker": "#a43d3d",
+      "bottle-type-select": "0"
     },
     {
-      "id": "a71a",
+      "id": "2f67",
+      "potion-name": "dwadwa",
+      "potion-ingredients": "awdsad",
+      "potion-effects": "sdad",
+      "potion-color-picker": "#eeff00",
+      "bottle-type-select": "0"
+    },
+    {
+      "id": "584c",
+      "potion-name": "dwadw",
+      "potion-ingredients": "dwadwa",
+      "potion-effects": "dsadsa",
+      "potion-color-picker": "#00eeff",
+      "bottle-type-select": "1"
+    },
+    {
+      "id": "5e19",
       "potion-name": "dwad",
-      "potion-ingredients": "dwadw",
-      "potion-effects": "dwa",
-      "potion-color-picker": "#df2020"
+      "potion-ingredients": "ada",
+      "potion-effects": "dsdsds",
+      "potion-color-picker": "#ffffff",
+      "bottle-type-select": "3"
+    },
+    {
+      "id": "a98b",
+      "potion-name": "dwad",
+      "potion-ingredients": "ada",
+      "potion-effects": "dsdsds",
+      "potion-color-picker": "#ffffff",
+      "bottle-type-select": "3"
+    },
+    {
+      "id": "414f",
+      "potion-name": "dwadwad",
+      "potion-ingredients": "dwadwad",
+      "potion-effects": "dwadwa",
+      "potion-color-picker": "#000000",
+      "bottle-type-select": "3"
+    },
+    {
+      "id": "4b2e",
+      "potion-name": "dwadaw",
+      "potion-ingredients": "dwadwad",
+      "potion-effects": "dwadwa",
+      "potion-color-picker": "#000000",
+      "bottle-type-select": "0"
+    },
+    {
+      "id": "48c6",
+      "potion-name": "dwadwad",
+      "potion-ingredients": "wadwad",
+      "potion-effects": "awdawd",
+      "potion-color-picker": "#000000",
+      "bottle-type-select": "1"
+    },
+    {
+      "id": "b732",
+      "potion-name": "dawdawd",
+      "potion-ingredients": "dwadwad",
+      "potion-effects": "dwadawd",
+      "potion-color-picker": "#000000",
+      "bottle-type-select": "2"
+    },
+    {
+      "id": "c5b7",
+      "potion-name": "awdadw",
+      "potion-ingredients": "dwadwad",
+      "potion-effects": "dwadwad",
+      "potion-color-picker": "#000000",
+      "bottle-type-select": "4"
     }
   ]
 }
