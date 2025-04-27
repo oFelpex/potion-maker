@@ -34,7 +34,7 @@ cd potion-maker
 3. Install JSON Server (if not installed):
 
 ```bash
-npm install -g json-server
+npm install json-server
 ```
 
 4. Start the JSON Server:
