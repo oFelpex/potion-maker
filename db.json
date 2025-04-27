@@ -1,83 +1,43 @@
 {
   "potions": [
     {
-      "id": "d02j",
-      "potion-name": "Strenght Potion",
-      "potion-ingredients": "Spider Eye",
-      "potion-effects": "Super Strenght",
-      "potion-color-picker": "#a43d3d",
+      "id": "7d44",
+      "potion-name": "Potion of Swiftness",
+      "potion-ingredients": "Sugar, water and nether wart",
+      "potion-effects": "Super speed",
+      "potion-color-picker": "#00e9fa",
       "bottle-type-select": "0"
     },
     {
-      "id": "2f67",
-      "potion-name": "dwadwa",
-      "potion-ingredients": "awdsad",
-      "potion-effects": "sdad",
-      "potion-color-picker": "#eeff00",
-      "bottle-type-select": "0"
-    },
-    {
-      "id": "584c",
-      "potion-name": "dwadw",
-      "potion-ingredients": "dwadwa",
-      "potion-effects": "dsadsa",
-      "potion-color-picker": "#00eeff",
+      "id": "f031",
+      "potion-name": "Potion of Strength",
+      "potion-ingredients": "Blaze Powder, water and nether wart",
+      "potion-effects": "Strength",
+      "potion-color-picker": "#6e0000",
       "bottle-type-select": "1"
     },
     {
-      "id": "5e19",
-      "potion-name": "dwad",
-      "potion-ingredients": "ada",
-      "potion-effects": "dsdsds",
-      "potion-color-picker": "#ffffff",
-      "bottle-type-select": "3"
-    },
-    {
-      "id": "a98b",
-      "potion-name": "dwad",
-      "potion-ingredients": "ada",
-      "potion-effects": "dsdsds",
-      "potion-color-picker": "#ffffff",
-      "bottle-type-select": "3"
-    },
-    {
-      "id": "414f",
-      "potion-name": "dwadwad",
-      "potion-ingredients": "dwadwad",
-      "potion-effects": "dwadwa",
-      "potion-color-picker": "#000000",
-      "bottle-type-select": "3"
-    },
-    {
-      "id": "4b2e",
-      "potion-name": "dwadaw",
-      "potion-ingredients": "dwadwad",
-      "potion-effects": "dwadwa",
-      "potion-color-picker": "#000000",
-      "bottle-type-select": "0"
-    },
-    {
-      "id": "48c6",
-      "potion-name": "dwadwad",
-      "potion-ingredients": "wadwad",
-      "potion-effects": "awdawd",
-      "potion-color-picker": "#000000",
-      "bottle-type-select": "1"
-    },
-    {
-      "id": "b732",
-      "potion-name": "dawdawd",
-      "potion-ingredients": "dwadwad",
-      "potion-effects": "dwadawd",
-      "potion-color-picker": "#000000",
+      "id": "57eb",
+      "potion-name": "Potion of Healing",
+      "potion-ingredients": "Glistering Melon, nether wart and water ",
+      "potion-effects": "Instant healing",
+      "potion-color-picker": "#ff0000",
       "bottle-type-select": "2"
     },
     {
-      "id": "c5b7",
-      "potion-name": "awdadw",
-      "potion-ingredients": "dwadwad",
-      "potion-effects": "dwadwad",
-      "potion-color-picker": "#000000",
+      "id": "8303",
+      "potion-name": "Potion of Fire Resistence",
+      "potion-ingredients": "Magma cream, water and nether wart",
+      "potion-effects": "Fire Resistence",
+      "potion-color-picker": "#ffa305",
+      "bottle-type-select": "3"
+    },
+    {
+      "id": "3414",
+      "potion-name": "Potion of Slow Falling",
+      "potion-ingredients": "Phantom Membrane, nether wart and water",
+      "potion-effects": "Slow Falling",
+      "potion-color-picker": "#e6e6e6",
       "bottle-type-select": "4"
     }
   ]
