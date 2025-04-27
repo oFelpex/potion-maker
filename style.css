@@ -169,7 +169,7 @@ button {
   border-radius: 5px;
   border: thick double #604652;
   padding: 20px;
-  margin: 20px 20px 200px 20px;
+  margin: 20px 20px 100px 20px;
 }
 #potions-form {
   display: flex;

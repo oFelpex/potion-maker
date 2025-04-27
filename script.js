@@ -2,6 +2,10 @@ function scrollToPotionCreator() {
   let potionCreator = document.getElementById("potion-creator");
   potionCreator.scrollIntoView({ behavior: "smooth" });
 }
+function scrollToHeader() {
+  let header = document.getElementById("header");
+  header.scrollIntoView({ behavior: "smooth" });
+}
 
 function bottlePreview() {
   let bottleArr = [
