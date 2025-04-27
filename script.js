@@ -192,7 +192,9 @@ function editPotion(potion) {
       editPotionColor(potion);
       break;
     case "":
-      alert("Well, I guess you want to cancel...");
+      alert("You didn't choose any option...");
+      break;
+    case null:
       break;
     default:
       alert("That's not a option! >:(");
