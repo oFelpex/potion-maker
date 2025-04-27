@@ -22,7 +22,7 @@ function addToInputColor() {
     "Color: " + potionColorPicker.value;
 }
 
-async function submitPotion() {
+function submitPotion() {
   let potionForm = document.getElementById("potions-form");
   potionForm.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -36,7 +36,7 @@ async function submitPotion() {
     };
     const potionJSON = JSON.stringify(potionOBJ);
 
-    await fetch("http://localhost:3000/potions", {
+    fetch("http://localhost:3000/potions", {
       method: "POST",
       body: potionJSON,
     })
@@ -56,14 +56,25 @@ async function submitPotion() {
   });
 }
 
-async function showAllPotions() {
-  let response = (await fetch("http://localhost:3000/potions")).json();
-  response.then((allPotions) => {
-    for (let potion of allPotions) {
-      createPotion(potion);
-    }
-  });
+function showAllPotions() {
+  fetch("http://localhost:3000/potions")
+    .then(function (response) {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return Promise.reject(response);
+      }
+    })
+    .then(function (allPotions) {
+      for (let potion of allPotions) {
+        createPotion(potion);
+      }
+    })
+    .catch(function (err) {
+      console.warn("Something went wrong.", err);
+    });
 }
+
 showAllPotions();
 
 function createPotion(potion) {
@@ -184,28 +195,34 @@ function editPotionName(potion) {
   );
   if (newName) {
     if (newName.trim() === "") {
-      newName = potion["potion-name"];
+      alert("Well, I guess you want to cancel...");
+      return;
     } else {
       if (newName.length > 30) {
         alert("Max length to Potion name is 30!");
-        editPotion(potion);
+        return;
       }
       if (newName.length < 3) {
         alert("Min length to Potion name is 3!");
-        editPotion(potion);
+        return;
       }
     }
+    fetch(`http://localhost:3000/potions/${potion["id"]}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "potion-name": newName,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log("Updated with success:", data))
+      .catch((error) => console.error("Error:", error));
+    return;
   }
-
-  fetch(`http://localhost:3000/potions/${potion["id"]}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      "potion-name": newName,
-    }),
-  });
+  alert("Well, I guess you want to cancel...");
+  return;
 }
 function editPotionIngredients(potion) {
   let newIngredients = prompt(
@@ -213,17 +230,21 @@ function editPotionIngredients(potion) {
   );
   if (newIngredients) {
     if (newIngredients.trim() === "") {
-      newIngredients = potion["potion-ingredients"];
+      alert("Well, I guess you want to cancel...");
+      return;
     } else {
       if (newIngredients.length > 50) {
         alert("Max length to Potion name is 50!");
-        editPotion(potion);
+        return;
       }
       if (newIngredients.length < 3) {
         alert("Min length to Potion name is 3!");
-        editPotion(potion);
+        return;
       }
     }
+  } else {
+    alert("Well, I guess you want to cancel...");
+    return;
   }
 
   fetch(`http://localhost:3000/potions/${potion["id"]}`, {
@@ -234,7 +255,10 @@ function editPotionIngredients(potion) {
     body: JSON.stringify({
       "potion-ingredients": newIngredients,
     }),
-  });
+  })
+    .then((response) => response.json())
+    .then((data) => console.log("Updated with success:", data))
+    .catch((error) => console.error("Error:", error));
 }
 function editPotionEffects(potion) {
   let newEffects = prompt(
@@ -242,40 +266,45 @@ function editPotionEffects(potion) {
   );
   if (newEffects) {
     if (newEffects.trim() === "") {
-      newEffects = potion["potion-effects"];
+      alert("Well, I guess you want to cancel...");
+      return;
     } else {
       if (newEffects.length > 40) {
         alert("Max length to Potion effects is 40!");
-        editPotion(potion);
+        return;
       }
       if (newEffects.length < 3) {
         alert("Min length to Potion effects is 3!");
-        editPotion(potion);
+        return;
       }
     }
-  } else {
-    newEffects = potion["potion-effects"];
+
+    fetch(`http://localhost:3000/potions/${potion["id"]}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "potion-effects": newEffects,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log("Updated with success:", data))
+      .catch((error) => console.error("Error:", error));
+    return;
   }
 
-  fetch(`http://localhost:3000/potions/${potion["id"]}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      "potion-effects": newEffects,
-    }),
-  });
+  alert("Well, I guess you want to cancel...");
+  return;
 }
 function editPotionColor(potion) {
   let newColor = prompt(
     `CHANGE THE COLOR.\nCurrent potion color: ${potion["potion-color-picker"]}\nWrite the color in HEX (EX: #000000):`
   );
   if (newColor) {
-    newColor = newColor.trim();
-
-    if (newColor === "") {
-      newColor = potion["potion-color-picker"];
+    if (newColor.trim() === "") {
+      alert("Well, I guess you want to cancel...");
+      return;
     } else {
       if (newColor.charAt(0) !== "#") {
         newColor = "#" + newColor;
@@ -288,19 +317,22 @@ function editPotionColor(potion) {
         return;
       }
     }
-  } else {
-    newColor = potion["potion-color-picker"];
+    fetch(`http://localhost:3000/potions/${potion["id"]}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "potion-color-picker": newColor,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log("Updated with success:", data))
+      .catch((error) => console.error("Error:", error));
+    return;
   }
-
-  fetch(`http://localhost:3000/potions/${potion["id"]}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      "potion-color-picker": newColor,
-    }),
-  });
+  alert("Well, I guess you want to cancel...");
+  return;
 }
 function deletePotion(potion) {
   let areYouSure = prompt(
@@ -310,13 +342,22 @@ function deletePotion(potion) {
   if (areYouSure) {
     if (areYouSure.trim() !== "") {
       if (areYouSure === "1") {
-        alert(`${potion["potion-name"]} deleted with success`);
         fetch(`http://localhost:3000/potions/${potion["id"]}`, {
           method: "DELETE",
-        });
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("deleted with success:", data);
+            alert(`${potion["potion-name"]} deleted with success`);
+          })
+          .catch((error) => console.error("Error:", error));
         return;
       }
       return;
     }
+    alert("Well, I guess you want to cancel...");
+    return;
   }
+  alert("Well, I guess you want to cancel...");
+  return;
 }
