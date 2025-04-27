@@ -40,7 +40,7 @@ npm install json-server
 4. Start the JSON Server:
 
 ```bash
-json-server --watch db.json
+npx json-server db.json
 ```
 
 5. Open index.html in your browser.
@@ -51,25 +51,24 @@ The app will interact with the JSON Server running at http://localhost:3000.
 
 ```bash
 potion-maker/
+├── assets/ # Assets folder
+├   └── empty-bottles/ # All empty bottles in .webp (5 in total)
 ├── db.json # Mock database for potions
 ├── index.html # Main HTML file
-├── style.css # Stylesheet
-└── script.js # JavaScript logic
+├── README.md # This READEME file
+├── script.js # JavaScript logic
+└── style.css # Stylesheet
 ```
 
 ## 💡 Future Improvements
 
-- Add potion categories or types
+- Add rarity to each potions
 
-- Add image upload for each potion
-
-- Add search and filter functionality
-
-- Improve UI/UX with animations and transitions
+- Filter by rarity and name functionality
 
 ## 📜 License
 
-This project is open source and available under the MIT License.
+This project is open source and available to everyone.
 
 ##
 
