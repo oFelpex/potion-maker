@@ -41,14 +41,16 @@ button {
   }
 }
 #header {
-  padding-top: 20px;
+  padding: 20px 20px 0px 20px;
   flex-direction: column;
 }
 #header,
-#potion-creator {
+#potion-creator,
+.action-buttons {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 /* Potion showcase: */
@@ -64,14 +66,22 @@ button {
 }
 .potion-card {
   display: flex;
-  align-items: self-start;
-  justify-content: center;
-
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
   height: 280px;
   background-color: #163255;
   border-radius: 8px;
-  width: 240px;
+  min-width: 240px;
+  padding: 20px;
 }
+.span-potion-ingredients,
+.span-potion-effects {
+  word-break: break-all;
+  white-space-collapse: collapse;
+  text-align: center;
+}
+
 .showcase-potion-container {
   position: relative;
   display: flex;
@@ -159,7 +169,7 @@ button {
   border-radius: 5px;
   border: thick double #604652;
   padding: 20px;
-  margin: 20px;
+  margin: 20px 20px 200px 20px;
 }
 #potions-form {
   display: flex;
@@ -168,7 +178,7 @@ button {
   flex-direction: column;
   width: 100%;
 }
-#div-potion-preview,
+
 #div-bottle-preview,
 #div-potion-color {
   display: flex;
