@@ -8,8 +8,11 @@ function bottlePreview() {
   ];
   let bottleTypeSelect = document.getElementById("bottle-type-select");
   let bottlePreview = document.getElementById("bottle-preview");
+  bottlePreview.style.opacity = 1;
   bottlePreview.src = bottleArr[bottleTypeSelect.value].imgURL;
-  document.getElementById("bottle-preview-caption").innerHTML =
+  let bottlePreviewCaption = document.getElementById("bottle-preview-caption");
+  bottlePreviewCaption.style.transform = "translateY(0)";
+  bottlePreviewCaption.innerHTML =
     "Type: " + (Number(bottleTypeSelect.value) + 1);
 }
 
@@ -107,7 +110,213 @@ function createPotion(potion) {
   showcasePotionContainer.appendChild(showcasePotionColor);
   potionCard.appendChild(showcasePotionContainer);
 
-  //Create spans here
+  const spanPotionTitle = document.createElement("H3");
+  spanPotionTitle.classList.add("span-potion-name");
+  spanPotionTitle.innerHTML = potion["potion-name"];
+  potionCard.appendChild(spanPotionTitle);
 
+  const spanPotionIngredients = document.createElement("SPAN");
+  spanPotionIngredients.classList.add("span-potion-ingredients");
+  spanPotionIngredients.innerHTML =
+    "<strong>Ingredients: </strong>" + potion["potion-ingredients"];
+  potionCard.appendChild(spanPotionIngredients);
+
+  const spanPotionEffects = document.createElement("SPAN");
+  spanPotionEffects.classList.add("span-potion-effects");
+  spanPotionEffects.innerHTML =
+    "<strong>Effects: </strong> " + potion["potion-effects"];
+  potionCard.appendChild(spanPotionEffects);
+
+  const divActionButtons = document.createElement("DIV");
+  divActionButtons.classList.add("action-buttons");
+
+  const editButton = document.createElement("BUTTON");
+  editButton.style.width = "90px";
+  editButton.innerHTML = "<span>Edit</span>";
+  editButton.onclick = function () {
+    editPotion(potion);
+  };
+  divActionButtons.appendChild(editButton);
+
+  const deleteButton = document.createElement("BUTTON");
+  deleteButton.style.width = "90px";
+  deleteButton.innerHTML = "<span>Delete</span>";
+  deleteButton.onclick = function () {
+    deletePotion(potion);
+  };
+  divActionButtons.appendChild(deleteButton);
+
+  potionCard.appendChild(divActionButtons);
   potionShowcase.appendChild(potionCard);
+}
+
+function editPotion(potion) {
+  let editWhat = prompt(
+    `What do you want to edit?
+    Potion name: 0
+    Potion ingredients: 1
+    Potion effects: 2
+    Potion color: 3`
+  );
+  switch (editWhat) {
+    case "0":
+      editPotionName(potion);
+      break;
+    case "1":
+      editPotionIngredients(potion);
+      break;
+    case "2":
+      editPotionEffects(potion);
+      break;
+    case "3":
+      editPotionColor(potion);
+      break;
+    case "":
+      alert("Well, I guess you want to cancel...");
+      break;
+    default:
+      alert("That's not a option! >:(");
+  }
+}
+function editPotionName(potion) {
+  let newName = prompt(
+    `CHANGE THE NAME.\nCurrent potion name: ${potion["potion-name"]}\nChoose a new name:`
+  );
+  if (newName) {
+    if (newName.trim() === "") {
+      newName = potion["potion-name"];
+    } else {
+      if (newName.length > 30) {
+        alert("Max length to Potion name is 30!");
+        editPotion(potion);
+      }
+      if (newName.length < 3) {
+        alert("Min length to Potion name is 3!");
+        editPotion(potion);
+      }
+    }
+  }
+
+  fetch(`http://localhost:3000/potions/${potion["id"]}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      "potion-name": newName,
+    }),
+  });
+}
+function editPotionIngredients(potion) {
+  let newIngredients = prompt(
+    `CHANGE THE INGREDIENTS.\nCurrent potion ingredients: ${potion["potion-ingredients"]}\nWrite the ingredients:`
+  );
+  if (newIngredients) {
+    if (newIngredients.trim() === "") {
+      newIngredients = potion["potion-ingredients"];
+    } else {
+      if (newIngredients.length > 50) {
+        alert("Max length to Potion name is 50!");
+        editPotion(potion);
+      }
+      if (newIngredients.length < 3) {
+        alert("Min length to Potion name is 3!");
+        editPotion(potion);
+      }
+    }
+  }
+
+  fetch(`http://localhost:3000/potions/${potion["id"]}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      "potion-ingredients": newIngredients,
+    }),
+  });
+}
+function editPotionEffects(potion) {
+  let newEffects = prompt(
+    `CHANGE THE EFFECTS.\nCurrent potion effects: ${potion["potion-effects"]}\nWrite the effects:`
+  );
+  if (newEffects) {
+    if (newEffects.trim() === "") {
+      newEffects = potion["potion-effects"];
+    } else {
+      if (newEffects.length > 40) {
+        alert("Max length to Potion effects is 40!");
+        editPotion(potion);
+      }
+      if (newEffects.length < 3) {
+        alert("Min length to Potion effects is 3!");
+        editPotion(potion);
+      }
+    }
+  } else {
+    newEffects = potion["potion-effects"];
+  }
+
+  fetch(`http://localhost:3000/potions/${potion["id"]}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      "potion-effects": newEffects,
+    }),
+  });
+}
+function editPotionColor(potion) {
+  let newColor = prompt(
+    `CHANGE THE COLOR.\nCurrent potion color: ${potion["potion-color-picker"]}\nWrite the color in HEX (EX: #000000):`
+  );
+  if (newColor) {
+    newColor = newColor.trim();
+
+    if (newColor === "") {
+      newColor = potion["potion-color-picker"];
+    } else {
+      if (newColor.charAt(0) !== "#") {
+        newColor = "#" + newColor;
+      }
+
+      if (![4, 7, 9].includes(newColor.length)) {
+        alert(
+          "Potion color must be in one of these formats:\n#RGB (4 chars)\n#RRGGBB (7 chars)\n#RRGGBBAA (9 chars)"
+        );
+        return;
+      }
+    }
+  } else {
+    newColor = potion["potion-color-picker"];
+  }
+
+  fetch(`http://localhost:3000/potions/${potion["id"]}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      "potion-color-picker": newColor,
+    }),
+  });
+}
+function deletePotion(potion) {
+  let areYouSure = prompt(
+    `Are you sure that you want to delete: ${potion["potion-name"]}?\nType: 1 to confirm`
+  );
+
+  if (areYouSure) {
+    if (areYouSure.trim() !== "") {
+      if (areYouSure === "1") {
+        alert(`${potion["potion-name"]} deleted with success`);
+        fetch(`http://localhost:3000/potions/${potion["id"]}`, {
+          method: "DELETE",
+        });
+        return;
+      }
+      return;
+    }
+  }
 }
