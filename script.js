@@ -1,3 +1,8 @@
+function scrollToPotionCreator() {
+  let potionCreator = document.getElementById("potion-creator");
+  potionCreator.scrollIntoView({ behavior: "smooth" });
+}
+
 function bottlePreview() {
   let bottleArr = [
     { name: "bottle-0", imgURL: "./assets/empty-bottles/bottle-0.webp" },
