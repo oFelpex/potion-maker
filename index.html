@@ -21,7 +21,7 @@
               <label for="potion-name">Potion Name</label>
               <input
                 required
-                maxlength="20"
+                maxlength="30"
                 minlength="3"
                 placeholder="Ex: Strength Potion"
                 type="text"
@@ -34,32 +34,26 @@
               <label for="potion-ingredients">Potion Ingredients</label>
               <input
                 required
-                maxlength="25"
+                maxlength="50"
                 minlength="3"
                 placeholder="Ex: Spider Eye"
                 type="text"
                 name="potion-ingredients"
                 id="potion-ingredients"
               />
-              <button type="button">
-                <span>Add Ingredient</span>
-              </button>
             </div>
 
             <div class="div-input">
               <label for="potion-effects">Potion Effects</label>
               <input
                 required
-                maxlength="15"
+                maxlength="40"
                 minlength="3"
                 placeholder="Ex: Strength"
                 type="text"
                 name="potion-effects"
                 id="potion-effects"
               />
-              <button type="button">
-                <span>Add Effect</span>
-              </button>
             </div>
 
             <div class="div-input">
@@ -81,10 +75,16 @@
                 <div id="bottle-preview-container">
                   <img
                     id="bottle-preview"
+                    style="opacity: 0"
                     src="./assets/empty-bottles/bottle-0.webp"
                     alt="A Empty Bottle"
                   />
-                  <figcaption id="bottle-preview-caption">Type: 1</figcaption>
+                  <figcaption
+                    id="bottle-preview-caption"
+                    style="transform: translateY(-35px)"
+                  >
+                    Select the bottle
+                  </figcaption>
                 </div>
               </div>
             </div>
@@ -101,7 +101,9 @@
                   id="potion-color-picker"
                   onchange="addToInputColor()"
                 />
-                <span id="potion-color-span">Select a color</span>
+                <span id="potion-color-span"
+                  >Select a color, default: black</span
+                >
               </div>
             </div>
 
