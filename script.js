@@ -151,7 +151,7 @@ function createPotion(potion) {
   divActionButtons.classList.add("action-buttons");
 
   const editButton = document.createElement("BUTTON");
-  editButton.style.width = "90px";
+  editButton.classList.add("edit-button");
   editButton.innerHTML = "<span>Edit</span>";
   editButton.onclick = function () {
     editPotion(potion);
@@ -159,7 +159,7 @@ function createPotion(potion) {
   divActionButtons.appendChild(editButton);
 
   const deleteButton = document.createElement("BUTTON");
-  deleteButton.style.width = "90px";
+  deleteButton.classList.add("delete-button");
   deleteButton.innerHTML = "<span>Delete</span>";
   deleteButton.onclick = function () {
     deletePotion(potion);
