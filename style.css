@@ -197,7 +197,7 @@ button,
   border-radius: 5px;
   border: thick double #604652;
   padding: 20px;
-  margin: 20px 20px 100px 20px;
+  margin: 20px;
 }
 #potions-form {
   display: flex;
@@ -246,10 +246,17 @@ button,
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
-
-  opacity: 0;
-  visibility: hidden;
+  animation: fadeIn 0.3s;
 }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 #modal-container {
   display: flex;
   align-items: center;
@@ -261,7 +268,7 @@ button,
   max-width: 500px;
   width: 100%;
   min-height: 200px;
-  max-height: 90vh;
+  max-height: 80vh;
   height: 100%;
   background-color: #102e50;
   border-radius: 10px;

@@ -7,11 +7,11 @@ function scrollToHeader() {
   header.scrollIntoView({ behavior: "smooth" });
 }
 
-function bottlePreview({
+function bottlePreview(
   bottleTypeSelectID,
   bottlePreviewID,
-  bottlePreviewCaptionID,
-} = test) {
+  bottlePreviewCaptionID
+) {
   let bottleArr = [
     { name: "bottle-0", imgURL: "./assets/empty-bottles/bottle-0.webp" },
     { name: "bottle-1", imgURL: "./assets/empty-bottles/bottle-1.webp" },
@@ -157,8 +157,8 @@ function createPotion(potion) {
   const editButton = document.createElement("BUTTON");
   editButton.classList.add("edit-button");
   editButton.innerHTML = "<span>Edit</span>";
-  editButton.onclick = function () {
-    updatePotion(potion);
+  editButton.onclick = function (event) {
+    updatePotion(potion, event);
   };
   divActionButtons.appendChild(editButton);
 
@@ -174,8 +174,12 @@ function createPotion(potion) {
   potionShowcase.appendChild(potionCard);
 }
 
-function updatePotion(potion) {
-  openUpdatePotionModal(potion);
+function updatePotion(potion, event) {
+  openUpdatePotionModal(potion, event);
+
+  const modalUpdatePotionForm = document.getElementById(
+    "modal-update-potion-form"
+  );
   // let editWhat = prompt(
   //   `What do you want to edit?
   //   Potion name: 0
@@ -378,18 +382,151 @@ function deletePotion(potion) {
   return;
 }
 
-function openUpdatePotionModal(potion) {
-  const modalOverlay = document.getElementById("modal-overlay");
-  modalOverlay.style.opacity = 1;
-  modalOverlay.style.visibility = "visible";
+function openUpdatePotionModal(potion, event) {
+  if (document.getElementById("modal-overlay")) closeUpdatePotionModal(event);
+
+  document.getElementById("main").innerHTML += `
+        <div id="modal-overlay" onclick="closeUpdatePotionModal(event)">
+        <div id="modal-container" onclick="event.stopPropagation()">
+          <h3>Update Potion</h3>
+          <form id="modal-update-potion-form">
+            <div class="modal-div-input">
+              <label for="modal-potion-name">Potion Name</label>
+              <input
+                required
+                maxlength="30"
+                minlength="3"
+                placeholder="Ex: Strength Potion"
+                type="text"
+                value="${potion["potion-name"]}"
+                name="modal-potion-name"
+                id="modal-potion-name"
+              />
+            </div>
+
+            <div class="modal-div-input">
+              <label for="modal-potion-ingredients">Potion Ingredients</label>
+              <input
+                required
+                maxlength="50"
+                minlength="3"
+                placeholder="Ex: Spider Eye"
+                type="text"
+                value="${potion["potion-ingredients"]}"
+                name="modal-potion-ingredients"
+                id="modal-potion-ingredients"
+              />
+            </div>
+
+            <div class="modal-div-input">
+              <label for="modal-potion-effects">Potion Effects</label>
+              <input
+                required
+                maxlength="40"
+                minlength="3"
+                placeholder="Ex: Strength"
+                type="text"
+                value="${potion["potion-effects"]}"
+                name="modal-potion-effects"
+                id="modal-potion-effects"
+              />
+            </div>
+
+            <div class="modal-div-input">
+              <label for="modal-potion-color-picker"
+                >Choose the color of the potion</label
+              >
+              <div id="modal-div-potion-color">
+                <input
+                  required
+                  type="color"
+                  name="modal-potion-color-picker"
+                  id="modal-potion-color-picker"
+                  onchange="addToSpanColor('modal-potion-color-picker', 'modal-potion-color-span')"
+                />
+                <span id="modal-potion-color-span"
+                  >Select a color, default: black</span
+                >
+              </div>
+            </div>
+
+            <div class="modal-div-input">
+              <label for="modal-bottle-type-select"
+                >Choose the type of bottle</label
+              >
+              <div id="div-bottle-preview">
+                <select
+                  required
+                  name="modal-bottle-type-select"
+                  id="modal-bottle-type-select"
+                  onchange="bottlePreview('modal-bottle-type-select',
+                    'modal-bottle-preview-img',
+                    'modal-bottle-preview-caption')"
+                >
+                  <option value="" selected disabled>Select the type</option>
+                  <option value="0">Type 1</option>
+                  <option value="1">Type 2</option>
+                  <option value="2">Type 3</option>
+                  <option value="3">Type 4</option>
+                  <option value="4">Type 5</option>
+                </select>
+                <div id="bottle-preview-container">
+                  <img
+                    id="modal-bottle-preview-img"
+                    style="opacity: 0"
+                    src="./assets/empty-bottles/bottle-${potion["bottle-type-select"]}.webp"
+                    alt="A Empty Bottle"
+                  />
+                  <figcaption
+                    id="modal-bottle-preview-caption"
+                    style="transform: translateY(-35px)"
+                  >
+                    Select the bottle
+                  </figcaption>
+                </div>
+              </div>
+            </div>
+
+            
+
+            <div>
+              <button
+                type="submit"
+                onclick="updatePotionForm()"
+                class="submit-button"
+              >
+                <span>Update!</span>
+              </button>
+
+              <button
+                type="button"
+                onclick="closeUpdatePotionModal(event)"
+                style="margin-top: 20px"
+                class="delete-button"
+              >
+                <span>Cancel</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+  `;
+
+  const selectElement = document.getElementById("modal-bottle-type-select");
+  selectElement.value = potion["bottle-type-select"];
+  selectElement.dispatchEvent(new Event("change"));
+
+  const colorInput = document.getElementById("modal-potion-color-picker");
+  colorInput.value = potion["potion-color-picker"];
+  colorInput.dispatchEvent(new Event("change"));
 }
 
 function closeUpdatePotionModal(event) {
   event.stopPropagation();
-
+  const main = document.getElementById("main");
   const modalOverlay = document.getElementById("modal-overlay");
-  modalOverlay.style.opacity = 0;
-  modalOverlay.style.visibility = "hidden";
+
+  main.removeChild(modalOverlay);
 }
 
 function updatePotionForm() {}
