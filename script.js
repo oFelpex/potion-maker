@@ -37,15 +37,17 @@ function addToSpanColor(potionColorPickerID, potionPolorSpanID) {
 }
 function createNewPotion() {
   let potionForm = document.getElementById("potions-form");
-  potionForm.addEventListener("submit", (event) => {
+  potionForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
+    const potionFormData = new FormData(potionForm);
+
     const potionOBJ = {
-      "potion-name": event.target["potion-name"].value,
-      "potion-ingredients": event.target["potion-ingredients"].value,
-      "potion-effects": event.target["potion-effects"].value,
-      "potion-color-picker": event.target["potion-color-picker"].value,
-      "bottle-type-select": event.target["bottle-type-select"].value,
+      "potion-name": potionFormData.get("potion-name"),
+      "potion-ingredients": potionFormData.get("potion-ingredients"),
+      "potion-effects": potionFormData.get("potion-effects"),
+      "potion-color-picker": potionFormData.get("potion-color-picker"),
+      "bottle-type-select": potionFormData.get("bottle-type-select"),
     };
     const potionJSON = JSON.stringify(potionOBJ);
 
@@ -180,7 +182,7 @@ function openUpdatePotionModal(potion, event) {
         <div id="modal-overlay" onclick="closePotionModal(event)">
         <div id="modal-container" onclick="event.stopPropagation()">
           <h3>Update Potion</h3>
-          <form id="modal-update-potion-form">
+          <form method="post" id="modal-update-potion-form">
             <div class="modal-div-input">
               <label for="modal-potion-name">Potion Name</label>
               <input required maxlength="30" minlength="3" placeholder="Ex: Strength Potion" type="text" value="${potion["potion-name"]}" name="modal-potion-name" id="modal-potion-name"
@@ -252,14 +254,22 @@ function updatePotion(potion) {
   modalUpdatePotionForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    function areObjectsEqual(potion, event) {
+    const updatePotionFormData = new FormData(modalUpdatePotionForm);
+
+    function areObjectsEqual(potion, updatePotionFormData) {
       const modalPotion = {
         id: potion.id,
-        "potion-name": event.target["modal-potion-name"].value,
-        "potion-ingredients": event.target["modal-potion-ingredients"].value,
-        "potion-effects": event.target["modal-potion-effects"].value,
-        "potion-color-picker": event.target["modal-potion-color-picker"].value,
-        "bottle-type-select": event.target["modal-bottle-type-select"].value,
+        "potion-name": updatePotionFormData.get("modal-potion-name"),
+        "potion-ingredients": updatePotionFormData.get(
+          "modal-potion-ingredients"
+        ),
+        "potion-effects": updatePotionFormData.get("modal-potion-effects"),
+        "potion-color-picker": updatePotionFormData.get(
+          "modal-potion-color-picker"
+        ),
+        "bottle-type-select": updatePotionFormData.get(
+          "modal-bottle-type-select"
+        ),
       };
 
       const potionArr = Object.keys(potion);
@@ -268,19 +278,24 @@ function updatePotion(potion) {
       }
       return true;
     }
-    if (!areObjectsEqual(potion, event)) {
+    if (!areObjectsEqual(potion, updatePotionFormData)) {
       fetch(`http://localhost:3000/potions/${potion["id"]}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          "potion-name": event.target["modal-potion-name"].value,
-          "potion-ingredients": event.target["modal-potion-ingredients"].value,
-          "potion-effects": event.target["modal-potion-effects"].value,
-          "potion-color-picker":
-            event.target["modal-potion-color-picker"].value,
-          "bottle-type-select": event.target["modal-bottle-type-select"].value,
+          "potion-name": updatePotionFormData.get("modal-potion-name"),
+          "potion-ingredients": updatePotionFormData.get(
+            "modal-potion-ingredients"
+          ),
+          "potion-effects": updatePotionFormData.get("modal-potion-effects"),
+          "potion-color-picker": updatePotionFormData.get(
+            "modal-potion-color-picker"
+          ),
+          "bottle-type-select": updatePotionFormData.get(
+            "modal-bottle-type-select"
+          ),
         }),
       })
         .then((response) => response.json())
