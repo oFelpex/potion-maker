@@ -37,9 +37,9 @@ function addToSpanColor(potionColorPickerID, potionPolorSpanID) {
     "Color: " + potionColorPicker.value;
 }
 
-function createPotion() {
+function createNewPotion() {
   let potionForm = document.getElementById("potions-form");
-  potionForm.addEventListener("submit", async (event) => {
+  potionForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
     const potionOBJ = {
@@ -82,7 +82,7 @@ function showAllPotions() {
     })
     .then(function (allPotions) {
       for (let potion of allPotions) {
-        createPotion(potion);
+        createPotionCard(potion);
       }
     })
     .catch(function (err) {
@@ -90,7 +90,7 @@ function showAllPotions() {
     });
 }
 
-function createPotion(potion) {
+function createPotionCard(potion) {
   const potionShowcase = document.getElementById("potion-showcase");
 
   const potionCard = document.createElement("DIV");
@@ -158,15 +158,15 @@ function createPotion(potion) {
   editButton.classList.add("edit-button");
   editButton.innerHTML = "<span>Edit</span>";
   editButton.onclick = function (event) {
-    updatePotion(potion, event);
+    openModal(potion, event, "update");
   };
   divActionButtons.appendChild(editButton);
 
   const deleteButton = document.createElement("BUTTON");
   deleteButton.classList.add("delete-button");
   deleteButton.innerHTML = "<span>Delete</span>";
-  deleteButton.onclick = function () {
-    deletePotion(potion);
+  deleteButton.onclick = function (event) {
+    openModal(potion, event, "delete");
   };
   divActionButtons.appendChild(deleteButton);
 
@@ -174,187 +174,149 @@ function createPotion(potion) {
   potionShowcase.appendChild(potionCard);
 }
 
-function updatePotion(potion, event) {
-  openUpdatePotionModal(potion, event);
+function openModal(potion, event, modalType) {
+  switch (modalType) {
+    case "update":
+      openUpdatePotionModal(potion, event);
+      break;
+    case "delete":
+      deletePotion(potion, event);
+      break;
+    default:
+      alert("Something broken in openModal");
+  }
+}
 
+function openUpdatePotionModal(potion, event) {
+  if (document.getElementById("modal-overlay")) closeUpdatePotionModal(event);
+
+  document.getElementById("main").innerHTML += `
+        <div id="modal-overlay" onclick="closeUpdatePotionModal(event)">
+        <div id="modal-container" onclick="event.stopPropagation()">
+          <h3>Update Potion</h3>
+          <form id="modal-update-potion-form">
+            <div class="modal-div-input">
+              <label for="modal-potion-name">Potion Name</label>
+              <input required maxlength="30" minlength="3" placeholder="Ex: Strength Potion" type="text" value="${potion["potion-name"]}" name="modal-potion-name" id="modal-potion-name"
+              />
+            </div>
+            <div class="modal-div-input">
+              <label for="modal-potion-ingredients">Potion Ingredients</label>
+              <input required maxlength="50" minlength="3" placeholder="Ex: Spider Eye" type="text" value="${potion["potion-ingredients"]}" name="modal-potion-ingredients" id="modal-potion-ingredients"/>
+            </div>
+            <div class="modal-div-input">
+              <label for="modal-potion-effects">Potion Effects</label>
+              <input required maxlength="40" minlength="3" placeholder="Ex: Strength" type="text" value="${potion["potion-effects"]}" name="modal-potion-effects" id="modal-potion-effects"/>
+            </div>
+            <div class="modal-div-input">
+              <label for="modal-potion-color-picker">Choose the color of the potion</label>
+              <div id="modal-div-potion-color">
+                <input required type="color" name="modal-potion-color-picker" id="modal-potion-color-picker" onchange="addToSpanColor('modal-potion-color-picker', 'modal-potion-color-span')"/>
+                <span id="modal-potion-color-span">Select a color, default: black</span>
+              </div>
+            </div>
+            <div class="modal-div-input">
+              <label for="modal-bottle-type-select">Choose the type of bottle</label>
+              <div id="div-bottle-preview">
+                <select required name="modal-bottle-type-select" id="modal-bottle-type-select" onchange="bottlePreview('modal-bottle-type-select', 'modal-bottle-preview-img', 'modal-bottle-preview-caption')">
+                  <option value="" selected disabled>Select the type</option>
+                  <option value="0">Type 1</option>
+                  <option value="1">Type 2</option>
+                  <option value="2">Type 3</option>
+                  <option value="3">Type 4</option>
+                  <option value="4">Type 5</option>
+                </select>
+                <div id="bottle-preview-container">
+                  <img id="modal-bottle-preview-img" style="opacity: 0" src="./assets/empty-bottles/bottle-${potion["bottle-type-select"]}.webp" alt="A Empty Bottle"/>
+                  <figcaption id="modal-bottle-preview-caption" style="transform: translateY(-35px)">
+                    Select the bottle
+                  </figcaption>
+                </div>
+              </div>
+            </div>
+            <div>
+              <button id="sumit-update-button" type="submit" class="submit-button">
+                <span>Update!</span>
+              </button>
+              <button type="button" onclick="closeUpdatePotionModal(event)" style="margin-top: 20px" class="delete-button">
+                <span>Cancel</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+  `;
+
+  const selectElement = document.getElementById("modal-bottle-type-select");
+  selectElement.value = potion["bottle-type-select"];
+  selectElement.dispatchEvent(new Event("change"));
+
+  const colorInput = document.getElementById("modal-potion-color-picker");
+  colorInput.value = potion["potion-color-picker"];
+  colorInput.dispatchEvent(new Event("change"));
+
+  const sumitUpdateButton = document.getElementById("sumit-update-button");
+  sumitUpdateButton.addEventListener("click", updatePotionForm(potion));
+}
+function closeUpdatePotionModal(event) {
+  event.stopPropagation();
+  const main = document.getElementById("main");
+  const modalOverlay = document.getElementById("modal-overlay");
+
+  main.removeChild(modalOverlay);
+}
+function updatePotionForm(potion) {
   const modalUpdatePotionForm = document.getElementById(
     "modal-update-potion-form"
   );
-  // let editWhat = prompt(
-  //   `What do you want to edit?
-  //   Potion name: 0
-  //   Potion ingredients: 1
-  //   Potion effects: 2
-  //   Potion color: 3`
-  // );
-  // switch (editWhat) {
-  //   case "0":
-  //     updatePotionName(potion);
-  //     break;
-  //   case "1":
-  //     updatePotionIngredients(potion);
-  //     break;
-  //   case "2":
-  //     updatePotionEffects(potion);
-  //     break;
-  //   case "3":
-  //     updatePotionColor(potion);
-  //     break;
-  //   case "":
-  //     alert("You didn't choose any option...");
-  //     break;
-  //   case null:
-  //     break;
-  //   default:
-  //     alert("That's not a option! >:(");
-  // }
+
+  modalUpdatePotionForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    function areObjectsEqual(potion, event) {
+      const modalPotion = {
+        id: potion.id,
+        "potion-name": event.target["modal-potion-name"].value,
+        "potion-ingredients": event.target["modal-potion-ingredients"].value,
+        "potion-effects": event.target["modal-potion-effects"].value,
+        "potion-color-picker": event.target["modal-potion-color-picker"].value,
+        "bottle-type-select": event.target["modal-bottle-type-select"].value,
+      };
+
+      const potionArr = Object.keys(potion);
+      for (let key of potionArr) {
+        if (potion[key] !== modalPotion[key]) return false;
+      }
+      return true;
+    }
+    if (!areObjectsEqual(potion, event)) {
+      fetch(`http://localhost:3000/potions/${potion["id"]}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "potion-name": event.target["modal-potion-name"].value,
+          "potion-ingredients": event.target["modal-potion-ingredients"].value,
+          "potion-effects": event.target["modal-potion-effects"].value,
+          "potion-color-picker":
+            event.target["modal-potion-color-picker"].value,
+          "bottle-type-select": event.target["modal-bottle-type-select"].value,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => console.log("Updated with success:", data))
+        .catch((error) => console.error("Error:", error));
+      return;
+    }
+
+    alert("You didn't change anything");
+    closeUpdatePotionModal(event);
+    return;
+  });
 }
-// function updatePotionName(potion) {
-//   let newName = prompt(
-//     `CHANGE THE NAME.\nCurrent potion name: ${potion["potion-name"]}\nChoose a new name:`
-//   );
-//   if (newName) {
-//     if (newName.trim() === "") {
-//       alert("Well, I guess you want to cancel...");
-//       return;
-//     } else {
-//       if (newName.length > 30) {
-//         alert("Max length to Potion name is 30!");
-//         return;
-//       }
-//       if (newName.length < 3) {
-//         alert("Min length to Potion name is 3!");
-//         return;
-//       }
-//     }
-//     fetch(`http://localhost:3000/potions/${potion["id"]}`, {
-//       method: "PATCH",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({
-//         "potion-name": newName,
-//       }),
-//     })
-//       .then((response) => response.json())
-//       .then((data) => console.log("Updated with success:", data))
-//       .catch((error) => console.error("Error:", error));
-//     return;
-//   }
-//   alert("Well, I guess you want to cancel...");
-//   return;
-// }
-// function updatePotionIngredients(potion) {
-//   let newIngredients = prompt(
-//     `CHANGE THE INGREDIENTS.\nCurrent potion ingredients: ${potion["potion-ingredients"]}\nWrite the ingredients:`
-//   );
-//   if (newIngredients) {
-//     if (newIngredients.trim() === "") {
-//       alert("Well, I guess you want to cancel...");
-//       return;
-//     } else {
-//       if (newIngredients.length > 50) {
-//         alert("Max length to Potion name is 50!");
-//         return;
-//       }
-//       if (newIngredients.length < 3) {
-//         alert("Min length to Potion name is 3!");
-//         return;
-//       }
-//     }
-//   } else {
-//     alert("Well, I guess you want to cancel...");
-//     return;
-//   }
 
-//   fetch(`http://localhost:3000/potions/${potion["id"]}`, {
-//     method: "PATCH",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({
-//       "potion-ingredients": newIngredients,
-//     }),
-//   })
-//     .then((response) => response.json())
-//     .then((data) => console.log("Updated with success:", data))
-//     .catch((error) => console.error("Error:", error));
-// }
-// function updatePotionEffects(potion) {
-//   let newEffects = prompt(
-//     `CHANGE THE EFFECTS.\nCurrent potion effects: ${potion["potion-effects"]}\nWrite the effects:`
-//   );
-//   if (newEffects) {
-//     if (newEffects.trim() === "") {
-//       alert("Well, I guess you want to cancel...");
-//       return;
-//     } else {
-//       if (newEffects.length > 40) {
-//         alert("Max length to Potion effects is 40!");
-//         return;
-//       }
-//       if (newEffects.length < 3) {
-//         alert("Min length to Potion effects is 3!");
-//         return;
-//       }
-//     }
-
-//     fetch(`http://localhost:3000/potions/${potion["id"]}`, {
-//       method: "PATCH",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({
-//         "potion-effects": newEffects,
-//       }),
-//     })
-//       .then((response) => response.json())
-//       .then((data) => console.log("Updated with success:", data))
-//       .catch((error) => console.error("Error:", error));
-//     return;
-//   }
-
-//   alert("Well, I guess you want to cancel...");
-//   return;
-// }
-// function updatePotionColor(potion) {
-//   let newColor = prompt(
-//     `CHANGE THE COLOR.\nCurrent potion color: ${potion["potion-color-picker"]}\nWrite the color in HEX (EX: #000000):`
-//   );
-//   if (newColor) {
-//     if (newColor.trim() === "") {
-//       alert("Well, I guess you want to cancel...");
-//       return;
-//     } else {
-//       if (newColor.charAt(0) !== "#") {
-//         newColor = "#" + newColor;
-//       }
-
-//       if (![4, 7, 9].includes(newColor.length)) {
-//         alert(
-//           "Potion color must be in one of these formats:\n#RGB (4 chars)\n#RRGGBB (7 chars)\n#RRGGBBAA (9 chars)"
-//         );
-//         return;
-//       }
-//     }
-//     fetch(`http://localhost:3000/potions/${potion["id"]}`, {
-//       method: "PATCH",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({
-//         "potion-color-picker": newColor,
-//       }),
-//     })
-//       .then((response) => response.json())
-//       .then((data) => console.log("Updated with success:", data))
-//       .catch((error) => console.error("Error:", error));
-//     return;
-//   }
-//   alert("Well, I guess you want to cancel...");
-//   return;
-// }
-function deletePotion(potion) {
+function deletePotion(potion, event) {
   let areYouSure = prompt(
     `Are you sure that you want to delete: ${potion["potion-name"]}?\nType: 1 to confirm`
   );
@@ -381,154 +343,5 @@ function deletePotion(potion) {
   alert("Well, I guess you want to cancel...");
   return;
 }
-
-function openUpdatePotionModal(potion, event) {
-  if (document.getElementById("modal-overlay")) closeUpdatePotionModal(event);
-
-  document.getElementById("main").innerHTML += `
-        <div id="modal-overlay" onclick="closeUpdatePotionModal(event)">
-        <div id="modal-container" onclick="event.stopPropagation()">
-          <h3>Update Potion</h3>
-          <form id="modal-update-potion-form">
-            <div class="modal-div-input">
-              <label for="modal-potion-name">Potion Name</label>
-              <input
-                required
-                maxlength="30"
-                minlength="3"
-                placeholder="Ex: Strength Potion"
-                type="text"
-                value="${potion["potion-name"]}"
-                name="modal-potion-name"
-                id="modal-potion-name"
-              />
-            </div>
-
-            <div class="modal-div-input">
-              <label for="modal-potion-ingredients">Potion Ingredients</label>
-              <input
-                required
-                maxlength="50"
-                minlength="3"
-                placeholder="Ex: Spider Eye"
-                type="text"
-                value="${potion["potion-ingredients"]}"
-                name="modal-potion-ingredients"
-                id="modal-potion-ingredients"
-              />
-            </div>
-
-            <div class="modal-div-input">
-              <label for="modal-potion-effects">Potion Effects</label>
-              <input
-                required
-                maxlength="40"
-                minlength="3"
-                placeholder="Ex: Strength"
-                type="text"
-                value="${potion["potion-effects"]}"
-                name="modal-potion-effects"
-                id="modal-potion-effects"
-              />
-            </div>
-
-            <div class="modal-div-input">
-              <label for="modal-potion-color-picker"
-                >Choose the color of the potion</label
-              >
-              <div id="modal-div-potion-color">
-                <input
-                  required
-                  type="color"
-                  name="modal-potion-color-picker"
-                  id="modal-potion-color-picker"
-                  onchange="addToSpanColor('modal-potion-color-picker', 'modal-potion-color-span')"
-                />
-                <span id="modal-potion-color-span"
-                  >Select a color, default: black</span
-                >
-              </div>
-            </div>
-
-            <div class="modal-div-input">
-              <label for="modal-bottle-type-select"
-                >Choose the type of bottle</label
-              >
-              <div id="div-bottle-preview">
-                <select
-                  required
-                  name="modal-bottle-type-select"
-                  id="modal-bottle-type-select"
-                  onchange="bottlePreview('modal-bottle-type-select',
-                    'modal-bottle-preview-img',
-                    'modal-bottle-preview-caption')"
-                >
-                  <option value="" selected disabled>Select the type</option>
-                  <option value="0">Type 1</option>
-                  <option value="1">Type 2</option>
-                  <option value="2">Type 3</option>
-                  <option value="3">Type 4</option>
-                  <option value="4">Type 5</option>
-                </select>
-                <div id="bottle-preview-container">
-                  <img
-                    id="modal-bottle-preview-img"
-                    style="opacity: 0"
-                    src="./assets/empty-bottles/bottle-${potion["bottle-type-select"]}.webp"
-                    alt="A Empty Bottle"
-                  />
-                  <figcaption
-                    id="modal-bottle-preview-caption"
-                    style="transform: translateY(-35px)"
-                  >
-                    Select the bottle
-                  </figcaption>
-                </div>
-              </div>
-            </div>
-
-            
-
-            <div>
-              <button
-                type="submit"
-                onclick="updatePotionForm()"
-                class="submit-button"
-              >
-                <span>Update!</span>
-              </button>
-
-              <button
-                type="button"
-                onclick="closeUpdatePotionModal(event)"
-                style="margin-top: 20px"
-                class="delete-button"
-              >
-                <span>Cancel</span>
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-  `;
-
-  const selectElement = document.getElementById("modal-bottle-type-select");
-  selectElement.value = potion["bottle-type-select"];
-  selectElement.dispatchEvent(new Event("change"));
-
-  const colorInput = document.getElementById("modal-potion-color-picker");
-  colorInput.value = potion["potion-color-picker"];
-  colorInput.dispatchEvent(new Event("change"));
-}
-
-function closeUpdatePotionModal(event) {
-  event.stopPropagation();
-  const main = document.getElementById("main");
-  const modalOverlay = document.getElementById("modal-overlay");
-
-  main.removeChild(modalOverlay);
-}
-
-function updatePotionForm() {}
 
 showAllPotions();
