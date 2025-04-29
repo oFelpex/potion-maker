@@ -30,13 +30,11 @@ function bottlePreview(
   bottlePreviewCaption.innerHTML =
     "Type: " + (Number(bottleTypeSelect.value) + 1);
 }
-
 function addToSpanColor(potionColorPickerID, potionPolorSpanID) {
   let potionColorPicker = document.getElementById(potionColorPickerID);
   document.getElementById(potionPolorSpanID).innerHTML =
     "Color: " + potionColorPicker.value;
 }
-
 function createNewPotion() {
   let potionForm = document.getElementById("potions-form");
   potionForm.addEventListener("submit", (event) => {
@@ -69,25 +67,6 @@ function createNewPotion() {
         console.warn("Something went wrong.", err);
       });
   });
-}
-
-function showAllPotions() {
-  fetch("http://localhost:3000/potions")
-    .then(function (response) {
-      if (response.ok) {
-        return response.json();
-      } else {
-        return Promise.reject(response);
-      }
-    })
-    .then(function (allPotions) {
-      for (let potion of allPotions) {
-        createPotionCard(potion);
-      }
-    })
-    .catch(function (err) {
-      console.warn("Something went wrong.", err);
-    });
 }
 
 function createPotionCard(potion) {
@@ -158,7 +137,7 @@ function createPotionCard(potion) {
   editButton.classList.add("edit-button");
   editButton.innerHTML = "<span>Edit</span>";
   editButton.onclick = function (event) {
-    openModal(potion, event, "update");
+    openPotionModal(potion, event, "update");
   };
   divActionButtons.appendChild(editButton);
 
@@ -166,7 +145,7 @@ function createPotionCard(potion) {
   deleteButton.classList.add("delete-button");
   deleteButton.innerHTML = "<span>Delete</span>";
   deleteButton.onclick = function (event) {
-    openModal(potion, event, "delete");
+    openPotionModal(potion, event, "delete");
   };
   divActionButtons.appendChild(deleteButton);
 
@@ -174,7 +153,7 @@ function createPotionCard(potion) {
   potionShowcase.appendChild(potionCard);
 }
 
-function openModal(potion, event, modalType) {
+function openPotionModal(potion, event, modalType) {
   switch (modalType) {
     case "update":
       openUpdatePotionModal(potion, event);
@@ -183,8 +162,15 @@ function openModal(potion, event, modalType) {
       openDeletePotionModal(potion, event);
       break;
     default:
-      alert("Something broken in openModal");
+      alert("Something broken in openPotionModal");
   }
+}
+function closePotionModal(event) {
+  event.stopPropagation();
+  const main = document.getElementById("main");
+  const modalOverlay = document.getElementById("modal-overlay");
+
+  main.removeChild(modalOverlay);
 }
 
 function openUpdatePotionModal(potion, event) {
@@ -256,16 +242,9 @@ function openUpdatePotionModal(potion, event) {
   colorInput.dispatchEvent(new Event("change"));
 
   const sumitUpdateButton = document.getElementById("sumit-update-button");
-  sumitUpdateButton.addEventListener("click", updatePotionForm(potion));
+  sumitUpdateButton.addEventListener("click", updatePotion(potion));
 }
-function closePotionModal(event) {
-  event.stopPropagation();
-  const main = document.getElementById("main");
-  const modalOverlay = document.getElementById("modal-overlay");
-
-  main.removeChild(modalOverlay);
-}
-function updatePotionForm(potion) {
+function updatePotion(potion) {
   const modalUpdatePotionForm = document.getElementById(
     "modal-update-potion-form"
   );
@@ -383,7 +362,6 @@ function openDeletePotionModal(potion, event) {
 
   return;
 }
-
 function deletePotion(potion) {
   fetch(`http://localhost:3000/potions/${potion["id"]}`, {
     method: "DELETE",
@@ -396,4 +374,22 @@ function deletePotion(potion) {
   return;
 }
 
+function showAllPotions() {
+  fetch("http://localhost:3000/potions")
+    .then(function (response) {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return Promise.reject(response);
+      }
+    })
+    .then(function (allPotions) {
+      for (let potion of allPotions) {
+        createPotionCard(potion);
+      }
+    })
+    .catch(function (err) {
+      console.warn("Something went wrong.", err);
+    });
+}
 showAllPotions();
