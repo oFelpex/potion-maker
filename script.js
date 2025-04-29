@@ -180,7 +180,7 @@ function openModal(potion, event, modalType) {
       openUpdatePotionModal(potion, event);
       break;
     case "delete":
-      deletePotion(potion, event);
+      openDeletePotionModal(potion, event);
       break;
     default:
       alert("Something broken in openModal");
@@ -188,10 +188,10 @@ function openModal(potion, event, modalType) {
 }
 
 function openUpdatePotionModal(potion, event) {
-  if (document.getElementById("modal-overlay")) closeUpdatePotionModal(event);
+  if (document.getElementById("modal-overlay")) closePotionModal(event);
 
   document.getElementById("main").innerHTML += `
-        <div id="modal-overlay" onclick="closeUpdatePotionModal(event)">
+        <div id="modal-overlay" onclick="closePotionModal(event)">
         <div id="modal-container" onclick="event.stopPropagation()">
           <h3>Update Potion</h3>
           <form id="modal-update-potion-form">
@@ -238,7 +238,7 @@ function openUpdatePotionModal(potion, event) {
               <button id="sumit-update-button" type="submit" class="submit-button">
                 <span>Update!</span>
               </button>
-              <button type="button" onclick="closeUpdatePotionModal(event)" style="margin-top: 20px" class="delete-button">
+              <button type="button" onclick="closePotionModal(event)" style="margin-top: 20px" class="delete-button">
                 <span>Cancel</span>
               </button>
             </div>
@@ -258,7 +258,7 @@ function openUpdatePotionModal(potion, event) {
   const sumitUpdateButton = document.getElementById("sumit-update-button");
   sumitUpdateButton.addEventListener("click", updatePotionForm(potion));
 }
-function closeUpdatePotionModal(event) {
+function closePotionModal(event) {
   event.stopPropagation();
   const main = document.getElementById("main");
   const modalOverlay = document.getElementById("modal-overlay");
@@ -310,37 +310,89 @@ function updatePotionForm(potion) {
       return;
     }
 
-    alert("You didn't change anything");
-    closeUpdatePotionModal(event);
+    closePotionModal(event);
     return;
   });
 }
 
-function deletePotion(potion, event) {
-  let areYouSure = prompt(
-    `Are you sure that you want to delete: ${potion["potion-name"]}?\nType: 1 to confirm`
+function openDeletePotionModal(potion, event) {
+  if (document.getElementById("modal-overlay")) closePotionModal(event);
+
+  document.getElementById("main").innerHTML += `
+  <div id="modal-overlay" onclick="closePotionModal(event)">
+    <div id="modal-container" onclick="event.stopPropagation()" style="height: fit-content; width: fit-content">
+      <h3>Delete Potion</h3>
+      <div id="modal-delete-potion">
+        <span style="text-align: center">Do you want to delete: <span style="color: ${potion["potion-color-picker"]}; text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.5);">${potion["potion-name"]}</span>?</span>
+      </div>
+    </div>
+  </div>  
+  `;
+
+  const modalDeletePotion = document.getElementById("modal-delete-potion");
+
+  const showcasePotionContainer = document.createElement("DIV");
+  showcasePotionContainer.classList.add("showcase-potion-container");
+
+  const showcasePotionImg = document.createElement("IMG");
+  showcasePotionImg.classList.add("showcase-potion-img");
+  showcasePotionImg.src = `assets/empty-bottles/bottle-${potion["bottle-type-select"]}.webp`;
+  showcasePotionImg.alt = "It's a potion bottle";
+
+  const showcasePotionColor = document.createElement("DIV");
+  showcasePotionColor.classList.add(
+    `showcase-potion-color-${potion["bottle-type-select"]}`
   );
 
-  if (areYouSure) {
-    if (areYouSure.trim() !== "") {
-      if (areYouSure === "1") {
-        fetch(`http://localhost:3000/potions/${potion["id"]}`, {
-          method: "DELETE",
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("deleted with success:", data);
-            alert(`${potion["potion-name"]} deleted with success`);
-          })
-          .catch((error) => console.error("Error:", error));
-        return;
-      }
-      return;
-    }
-    alert("Well, I guess you want to cancel...");
-    return;
+  if (["0", "2", "4"].includes(potion["bottle-type-select"])) {
+    showcasePotionColor.style.backgroundColor = potion["potion-color-picker"];
   }
-  alert("Well, I guess you want to cancel...");
+
+  if (potion["bottle-type-select"] === "3") {
+    showcasePotionColor.style.borderTop = `1px solid ${potion["potion-color-picker"]}`;
+    showcasePotionColor.style.borderBottom = `40px solid ${potion["potion-color-picker"]}`;
+  }
+
+  showcasePotionContainer.appendChild(showcasePotionImg);
+
+  if (potion["bottle-type-select"] === "1") {
+    const showcasePotionColor1Bottom = document.createElement("DIV");
+    showcasePotionColor1Bottom.classList.add("showcase-potion-color-1-bottom");
+    showcasePotionColor1Bottom.style.borderBottom = `5px solid ${potion["potion-color-picker"]}`;
+    showcasePotionColor1Bottom.style.backgroundColor =
+      potion["potion-color-picker"];
+    showcasePotionContainer.appendChild(showcasePotionColor1Bottom);
+
+    showcasePotionColor.style.borderBottom = `50px solid ${potion["potion-color-picker"]}`;
+  }
+
+  showcasePotionContainer.appendChild(showcasePotionColor);
+
+  modalDeletePotion.appendChild(showcasePotionContainer);
+
+  modalDeletePotion.innerHTML += `
+        <div class="action-buttons">
+          <button id="modal-delete-button" class="delete-button" type="button"><span>Delete</span></button>
+          <button type="button" onclick="closePotionModal(event)"><span>Cancel</span></button>
+        </div>`;
+
+  const modalDeleteButton = document.getElementById("modal-delete-button");
+  modalDeleteButton.addEventListener("click", () => {
+    deletePotion(potion);
+  });
+
+  return;
+}
+
+function deletePotion(potion) {
+  fetch(`http://localhost:3000/potions/${potion["id"]}`, {
+    method: "DELETE",
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("deleted with success:", data);
+    })
+    .catch((error) => console.error("Error:", error));
   return;
 }
 

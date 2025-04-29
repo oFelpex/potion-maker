@@ -269,11 +269,13 @@ button,
   width: 100%;
   min-height: 200px;
   max-height: 80vh;
+
   height: 100%;
   background-color: #102e50;
   border-radius: 10px;
 }
-#modal-update-potion-form {
+#modal-update-potion-form,
+#modal-delete-potion {
   display: flex;
   align-items: center;
   justify-content: center;
