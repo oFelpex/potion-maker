@@ -73,86 +73,114 @@ function createNewPotion() {
 
 function createPotionCard(potion) {
   const potionShowcase = document.getElementById("potion-showcase");
+  potionShowcase.innerHTML += `
+<div class="potion-card">
+  <div class="showcase-potion-container">
+    <img class="showcase-potion-img" src="assets/empty-bottles/bottle-${
+      potion["bottle-type-select"]
+    }.webp" alt="It's a potion bottle">
+    <div class="showcase-potion-color-${
+      potion["bottle-type-select"]
+    }" style="background-color: ${potion["potion-color-picker"]}">
+    ${
+      potion["bottle-type-select"] === "1"
+        ? `<div class="showcase-potion-color-1-bottom" style="border-bottom: 5px solid ${potion["potion-color-picker"]}; background-color: ${potion["potion-color-picker"]};"></div>`
+        : ""
+    }
+    </div>
+  </div>
+  <h3 class="span-potion-name">${potion["potion-name"]}</h3>
+  <span class="span-potion-ingredients">
+    <strong>Ingredients: </strong>${potion["potion-ingredients"]}
+  </span>
+  <span class="span-potion-effects"><strong>Effects: </strong>${
+    potion["potion-effects"]
+  }</span>
+  <div class="action-buttons">
+    <button class="edit-button"><span>Edit</span></button>
+    <button class="delete-button"><span>Delete</span></button>
+  </div>
+</div>
+`;
+  // const potionCard = document.createElement("DIV");
+  // potionCard.classList.add("potion-card");
 
-  const potionCard = document.createElement("DIV");
-  potionCard.classList.add("potion-card");
+  // const showcasePotionContainer = document.createElement("DIV");
+  // showcasePotionContainer.classList.add("showcase-potion-container");
 
-  const showcasePotionContainer = document.createElement("DIV");
-  showcasePotionContainer.classList.add("showcase-potion-container");
+  // const showcasePotionImg = document.createElement("IMG");
+  // showcasePotionImg.classList.add("showcase-potion-img");
+  // showcasePotionImg.src = `assets/empty-bottles/bottle-${potion["bottle-type-select"]}.webp`;
+  // showcasePotionImg.alt = "It's a potion bottle";
 
-  const showcasePotionImg = document.createElement("IMG");
-  showcasePotionImg.classList.add("showcase-potion-img");
-  showcasePotionImg.src = `assets/empty-bottles/bottle-${potion["bottle-type-select"]}.webp`;
-  showcasePotionImg.alt = "It's a potion bottle";
+  // const showcasePotionColor = document.createElement("DIV");
+  // showcasePotionColor.classList.add(
+  //   `showcase-potion-color-${potion["bottle-type-select"]}`
+  // );
 
-  const showcasePotionColor = document.createElement("DIV");
-  showcasePotionColor.classList.add(
-    `showcase-potion-color-${potion["bottle-type-select"]}`
-  );
+  // if (["0", "2", "4"].includes(potion["bottle-type-select"])) {
+  //   showcasePotionColor.style.backgroundColor = potion["potion-color-picker"];
+  // }
 
-  if (["0", "2", "4"].includes(potion["bottle-type-select"])) {
-    showcasePotionColor.style.backgroundColor = potion["potion-color-picker"];
-  }
+  // if (potion["bottle-type-select"] === "3") {
+  //   showcasePotionColor.style.borderTop = `1px solid ${potion["potion-color-picker"]}`;
+  //   showcasePotionColor.style.borderBottom = `40px solid ${potion["potion-color-picker"]}`;
+  // }
 
-  if (potion["bottle-type-select"] === "3") {
-    showcasePotionColor.style.borderTop = `1px solid ${potion["potion-color-picker"]}`;
-    showcasePotionColor.style.borderBottom = `40px solid ${potion["potion-color-picker"]}`;
-  }
+  // showcasePotionContainer.appendChild(showcasePotionImg);
 
-  showcasePotionContainer.appendChild(showcasePotionImg);
+  // if (potion["bottle-type-select"] === "1") {
+  //   const showcasePotionColor1Bottom = document.createElement("DIV");
+  //   showcasePotionColor1Bottom.classList.add("showcase-potion-color-1-bottom");
+  //   showcasePotionColor1Bottom.style.borderBottom = `5px solid ${potion["potion-color-picker"]}`;
+  //   showcasePotionColor1Bottom.style.backgroundColor =
+  //     potion["potion-color-picker"];
+  //   showcasePotionContainer.appendChild(showcasePotionColor1Bottom);
 
-  if (potion["bottle-type-select"] === "1") {
-    const showcasePotionColor1Bottom = document.createElement("DIV");
-    showcasePotionColor1Bottom.classList.add("showcase-potion-color-1-bottom");
-    showcasePotionColor1Bottom.style.borderBottom = `5px solid ${potion["potion-color-picker"]}`;
-    showcasePotionColor1Bottom.style.backgroundColor =
-      potion["potion-color-picker"];
-    showcasePotionContainer.appendChild(showcasePotionColor1Bottom);
+  //   showcasePotionColor.style.borderBottom = `50px solid ${potion["potion-color-picker"]}`;
+  // }
 
-    showcasePotionColor.style.borderBottom = `50px solid ${potion["potion-color-picker"]}`;
-  }
+  // showcasePotionContainer.appendChild(showcasePotionColor);
+  // potionCard.appendChild(showcasePotionContainer);
 
-  showcasePotionContainer.appendChild(showcasePotionColor);
-  potionCard.appendChild(showcasePotionContainer);
+  // const spanPotionTitle = document.createElement("H3");
+  // spanPotionTitle.classList.add("span-potion-name");
+  // spanPotionTitle.innerHTML = potion["potion-name"];
+  // potionCard.appendChild(spanPotionTitle);
 
-  const spanPotionTitle = document.createElement("H3");
-  spanPotionTitle.classList.add("span-potion-name");
-  spanPotionTitle.innerHTML = potion["potion-name"];
-  potionCard.appendChild(spanPotionTitle);
+  // const spanPotionIngredients = document.createElement("SPAN");
+  // spanPotionIngredients.classList.add("span-potion-ingredients");
+  // spanPotionIngredients.innerHTML =
+  //   "<strong>Ingredients: </strong>" + potion["potion-ingredients"];
+  // potionCard.appendChild(spanPotionIngredients);
 
-  const spanPotionIngredients = document.createElement("SPAN");
-  spanPotionIngredients.classList.add("span-potion-ingredients");
-  spanPotionIngredients.innerHTML =
-    "<strong>Ingredients: </strong>" + potion["potion-ingredients"];
-  potionCard.appendChild(spanPotionIngredients);
+  // const spanPotionEffects = document.createElement("SPAN");
+  // spanPotionEffects.classList.add("span-potion-effects");
+  // spanPotionEffects.innerHTML =
+  //   "<strong>Effects: </strong> " + potion["potion-effects"];
+  // potionCard.appendChild(spanPotionEffects);
 
-  const spanPotionEffects = document.createElement("SPAN");
-  spanPotionEffects.classList.add("span-potion-effects");
-  spanPotionEffects.innerHTML =
-    "<strong>Effects: </strong> " + potion["potion-effects"];
-  potionCard.appendChild(spanPotionEffects);
+  // const divActionButtons = document.createElement("DIV");
+  // divActionButtons.classList.add("action-buttons");
 
-  const divActionButtons = document.createElement("DIV");
-  divActionButtons.classList.add("action-buttons");
+  // const editButton = document.createElement("BUTTON");
+  // editButton.classList.add("edit-button");
+  // editButton.innerHTML = "<span>Edit</span>";
+  // editButton.onclick = function (event) {
+  //   openPotionModal(potion, event, "update");
+  // };
+  // divActionButtons.appendChild(editButton);
 
-  const editButton = document.createElement("BUTTON");
-  editButton.classList.add("edit-button");
-  editButton.innerHTML = "<span>Edit</span>";
-  editButton.onclick = function (event) {
-    openPotionModal(potion, event, "update");
-  };
-  divActionButtons.appendChild(editButton);
+  // const deleteButton = document.createElement("BUTTON");
+  // deleteButton.classList.add("delete-button");
+  // deleteButton.innerHTML = "<span>Delete</span>";
+  // deleteButton.onclick = function (event) {
+  //   openPotionModal(potion, event, "delete");
+  // };
+  // divActionButtons.appendChild(deleteButton);
 
-  const deleteButton = document.createElement("BUTTON");
-  deleteButton.classList.add("delete-button");
-  deleteButton.innerHTML = "<span>Delete</span>";
-  deleteButton.onclick = function (event) {
-    openPotionModal(potion, event, "delete");
-  };
-  divActionButtons.appendChild(deleteButton);
-
-  potionCard.appendChild(divActionButtons);
-  potionShowcase.appendChild(potionCard);
+  // potionCard.appendChild(divActionButtons);
+  // potionShowcase.appendChild(potionCard);
 }
 
 function openPotionModal(potion, event, modalType) {

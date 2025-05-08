@@ -140,7 +140,7 @@ button,
   border-left: 20px solid transparent;
 
   border-right: 20px solid transparent;
-  border-bottom: 50px solid #4caf50;
+  border-bottom: 50px solid;
   width: 25px;
   bottom: 11px;
   position: absolute;
