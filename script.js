@@ -343,15 +343,11 @@ function openDeletePotionModal(potion, event) {
 
   modalDeletePotion.innerHTML += `
         <div class="action-buttons">
-          <button id="modal-delete-button" class="delete-button" type="button"><span>Delete</span></button>
+          <button id="modal-delete-button" class="delete-button" type="button" onclick='deletePotion(${JSON.stringify(
+            potion
+          )})'><span>Delete</span></button>
           <button type="button" onclick="closePotionModal(event)"><span>Cancel</span></button>
         </div>`;
-
-  const modalDeleteButton = document.getElementById("modal-delete-button");
-  modalDeleteButton.addEventListener("click", () => {
-    deletePotion(potion);
-  });
-
   return;
 }
 function deletePotion(potion) {
