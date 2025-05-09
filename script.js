@@ -155,16 +155,22 @@ function openUpdatePotionModal(potion, event) {
           <form method="post" id="modal-update-potion-form">
             <div class="modal-div-input">
               <label for="modal-potion-name">Potion Name</label>
-              <input required maxlength="30" minlength="3" placeholder="Ex: Strength Potion" type="text" value="${potion["potion-name"]}" name="modal-potion-name" id="modal-potion-name"
+              <input required maxlength="30" minlength="3" placeholder="Ex: Strength Potion" type="text" value="${
+                potion["potion-name"]
+              }" name="modal-potion-name" id="modal-potion-name"
               />
             </div>
             <div class="modal-div-input">
               <label for="modal-potion-ingredients">Potion Ingredients</label>
-              <input required maxlength="50" minlength="3" placeholder="Ex: Spider Eye" type="text" value="${potion["potion-ingredients"]}" name="modal-potion-ingredients" id="modal-potion-ingredients"/>
+              <input required maxlength="50" minlength="3" placeholder="Ex: Spider Eye" type="text" value="${
+                potion["potion-ingredients"]
+              }" name="modal-potion-ingredients" id="modal-potion-ingredients"/>
             </div>
             <div class="modal-div-input">
               <label for="modal-potion-effects">Potion Effects</label>
-              <input required maxlength="40" minlength="3" placeholder="Ex: Strength" type="text" value="${potion["potion-effects"]}" name="modal-potion-effects" id="modal-potion-effects"/>
+              <input required maxlength="40" minlength="3" placeholder="Ex: Strength" type="text" value="${
+                potion["potion-effects"]
+              }" name="modal-potion-effects" id="modal-potion-effects"/>
             </div>
             <div class="modal-div-input">
               <label for="modal-potion-color-picker">Choose the color of the potion</label>
@@ -185,7 +191,9 @@ function openUpdatePotionModal(potion, event) {
                   <option value="4">Type 5</option>
                 </select>
                 <div id="bottle-preview-container">
-                  <img id="modal-bottle-preview-img" style="opacity: 0" src="./assets/empty-bottles/bottle-${potion["bottle-type-select"]}.webp" alt="A Empty Bottle"/>
+                  <img id="modal-bottle-preview-img" style="opacity: 0" src="./assets/empty-bottles/bottle-${
+                    potion["bottle-type-select"]
+                  }.webp" alt="A Empty Bottle"/>
                   <figcaption id="modal-bottle-preview-caption" style="transform: translateY(-35px)">
                     Select the bottle
                   </figcaption>
@@ -193,7 +201,9 @@ function openUpdatePotionModal(potion, event) {
               </div>
             </div>
             <div>
-              <button id="sumit-update-button" type="submit" class="submit-button">
+              <button id="sumit-update-button" type="submit" class="submit-button" onclick='updatePotion(${JSON.stringify(
+                potion
+              )})'>
                 <span>Update!</span>
               </button>
               <button type="button" onclick="closePotionModal(event)" style="margin-top: 20px" class="delete-button">
@@ -212,9 +222,6 @@ function openUpdatePotionModal(potion, event) {
   const colorInput = document.getElementById("modal-potion-color-picker");
   colorInput.value = potion["potion-color-picker"];
   colorInput.dispatchEvent(new Event("change"));
-
-  const sumitUpdateButton = document.getElementById("sumit-update-button");
-  sumitUpdateButton.addEventListener("click", updatePotion(potion));
 }
 function updatePotion(potion) {
   const modalUpdatePotionForm = document.getElementById(
