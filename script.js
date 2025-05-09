@@ -74,33 +74,54 @@ function createNewPotion() {
 function createPotionCard(potion) {
   const potionShowcase = document.getElementById("potion-showcase");
   potionShowcase.innerHTML += `
-<div class="potion-card">
-  <div class="showcase-potion-container">
-    <img class="showcase-potion-img" src="assets/empty-bottles/bottle-${
-      potion["bottle-type-select"]
-    }.webp" alt="It's a potion bottle">
-    <div class="showcase-potion-color-${
-      potion["bottle-type-select"]
-    }" style="background-color: ${potion["potion-color-picker"]}">
-    ${
-      potion["bottle-type-select"] === "1"
-        ? `<div class="showcase-potion-color-1-bottom" style="border-bottom: 5px solid ${potion["potion-color-picker"]}; background-color: ${potion["potion-color-picker"]};"></div>`
-        : ""
-    }
+  <div class="potion-card">
+    <div class="showcase-potion-container">
+      <img
+        class="showcase-potion-img"
+        src="assets/empty-bottles/bottle-${potion["bottle-type-select"]}.webp"
+        alt="It's a potion bottle"
+      />
+      ${
+        potion["bottle-type-select"] === "1"
+          ? `<div class="showcase-potion-color-1-bottom" style="border-bottom: 5px solid ${potion["potion-color-picker"]}; background-color: ${potion["potion-color-picker"]};"></div>`
+          : ""
+      }
+      <div class="showcase-potion-color-${potion["bottle-type-select"]}"
+        style="
+          ${
+            ["0", "2", "4"].includes(potion["bottle-type-select"])
+              ? `background-color: ${potion["potion-color-picker"]};`
+              : ""
+          }
+          ${
+            potion["bottle-type-select"] === "3"
+              ? `border-top: 1px solid ${potion["potion-color-picker"]}; border-bottom: 40px solid ${potion["potion-color-picker"]};`
+              : ""
+          }
+          ${
+            potion["bottle-type-select"] === "1"
+              ? `border-bottom: 50px solid ${potion["potion-color-picker"]};`
+              : ""
+          }
+        ">
+      </div>
+    </div>
+    <h3 class="span-potion-name">${potion["potion-name"]}</h3>
+    <span class="span-potion-ingredients"><strong>Ingredients: </strong>${
+      potion["potion-ingredients"]
+    }</span>
+    <span class="span-potion-effects"><strong>Effects: </strong>${
+      potion["potion-effects"]
+    }</span>
+    <div class="action-buttons">
+      <button class="edit-button" onclick='openPotionModal(${JSON.stringify(
+        potion
+      )}, event, "update")'><span>Edit</span></button>
+      <button class="delete-button" onclick='openPotionModal(${JSON.stringify(
+        potion
+      )}, event, "delete")'><span>Delete</span></button>
     </div>
   </div>
-  <h3 class="span-potion-name">${potion["potion-name"]}</h3>
-  <span class="span-potion-ingredients">
-    <strong>Ingredients: </strong>${potion["potion-ingredients"]}
-  </span>
-  <span class="span-potion-effects"><strong>Effects: </strong>${
-    potion["potion-effects"]
-  }</span>
-  <div class="action-buttons">
-    <button class="edit-button"><span>Edit</span></button>
-    <button class="delete-button"><span>Delete</span></button>
-  </div>
-</div>
 `;
   // const potionCard = document.createElement("DIV");
   // potionCard.classList.add("potion-card");
